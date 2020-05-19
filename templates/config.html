@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col p-4">
+    <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="config" role="tabpanel">
+            <h3 class="text-dark p-2"><strong>配置</strong></h3>
+            <div class="dropdown-divider"></div>
+            <h4 class="text-dark p-1">V2ray-Core</h4>
+            <div id="v2raycore" >
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="V2rayCorePath" class="col-sm-2 col-form-label">V2rayCore 路径</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="V2rayCorePath" value="{{ v2raypath }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="V2rayLogPath" class="col-sm-2 col-form-label">V2ray日志路径</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="V2rayLogPath" value="{{ v2raylogpath }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="V2rayCorePath" class="col-sm-2 col-form-label">V2ray日志等级</label>
+                        <div class="input-group col-sm-8">
+                            <div class="col-sm-2 p-0 m-0">
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" id="loglevel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {% if loglevel %}
+                                        {{ loglevel }}
+                                    {% else %}
+                                        Warning
+                                    {% endif %}
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Warning</a>
+                                    <a class="dropdown-item" href="#">Info</a>
+                                    <a class="dropdown-item" href="#">Error</a>
+                                    <a class="dropdown-item" href="#">Debug</a>
+                                    <a class="dropdown-item" href="#">None</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="text-dark p-1">监听端口</h4>
+            <div id="Listens">
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="Port" class="col-sm-2 col-form-label">端口</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="Port" value="{{ v2raypath }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="Portocol" class="col-sm-2 col-form-label">协议</label>
+                        <div class="input-group col-sm-8">
+                            <div class="p-0 m-0 col-sm-2">
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" id="Portocol" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {% if Portocol %}
+                                        {{ portocol }}
+                                    {% else %}
+                                        tcp
+                                    {% endif %}
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">tcp</a>
+                                    <a class="dropdown-item" href="#">mkcp</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="UUID" class="col-sm-2 col-form-label">UUID</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="UUID" value="{{ v2raypath }}">
+                        </div>
+                        <button class="btn iconfont iconupdate d-flex align-items-center" id="UuidUpdate"></button>
+                    </div>
+                </div>
+            </div>
+            <h4 class="text-dark p-1">数据传输</h4>
+            <div id="DataTransports">
+                <div class="col">
+                    <div class="form-group row">
+                        <label for="Data_portocol" class="col-sm-2 col-form-label">传输协议</label>
+                        <div class="input-group col-sm-8">
+                            <div class="col-sm-2 p-0 m-0">
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" id="Data_portocol" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {% if Data %}
+                                        {{ Data.portocol }}
+                                    {% else %}
+                                        Vmess
+                                    {% endif %}
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Vmess</a>
+                                    <a class="dropdown-item" href="#">Shadowsocks</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="btn btn-dark" id="SubmitConfig">应用修改</button>
+        </div>
+        <div class="tab-pane fade" id="status" role="tabpanel">
+            <h3 class="text-dark p-2"><strong>运行状态</strong></h3>
+            <div class="dropdown-divider"></div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+    </div>
+  </div>
+{% endblock %}
