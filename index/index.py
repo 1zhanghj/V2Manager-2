@@ -30,15 +30,15 @@ def index(request):
     v2rayHas = True
     msg = ""
     try:
-        os.listdir(sqlreslist[0].Path)
+        os.listdir(v2rayconf[0].Path)
     except:
         v2rayHas = False
         msg = "该路径不存在"
     else:
-        if not 'v2ray' in os.listdir(sqlreslist[0].Path):
+        if not 'v2ray' in os.listdir(v2rayconf[0].Path):
             v2rayHas = False
             msg = "该路径下没有V2ray执行程序"
-        elif os.path.isdir('{}/v2ray'.format(sqlreslist[0].Path)):
+        elif os.path.isdir('{}/v2ray'.format(v2rayconf[0].Path)):
             v2rayHas = False
             msg = "该路径下的V2ray为文件夹，不符合要求"
     content['V2ray'] = {}
