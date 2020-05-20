@@ -67,7 +67,7 @@ def index(request):
     content['Status']['Log'] = ""
     for l in log:
         content['Status']['Log'] += l
-        
+
     return render(request, 'config.html', content)
 
 def updateUUID(request):

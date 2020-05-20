@@ -147,9 +147,11 @@
                     <div class="btn btn-primary"><i class="iconfont iconrestart">重启</i></div>
                 </div>
                 <div class="col">
-                    <div class="alert alert-warning" role="alert">
+                    {% if Status.Log != "" %}
+                    <div class="alert alert-warning col-sm-8" role="alert">
                         {{ Status.Log }}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
