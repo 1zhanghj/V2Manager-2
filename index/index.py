@@ -155,6 +155,7 @@ def updateConfig(request):
     )
     with open('/etc/v2ray/config.json', 'w+') as f:
         f.write(json.dumps(config))
+    os.system('sudo systemctl restart v2ray')
     res = JsonResponse(res)
     return res
 
