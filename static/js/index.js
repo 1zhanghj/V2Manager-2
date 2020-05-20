@@ -17,6 +17,9 @@ $(() => {
                     $('#ShadowsocksID').val(res['data']['shadowsocks']['ShadowsocksID'])
                     $('#ShadowsocksPwd').val(res['data']['shadowsocks']['ShadowsocksPwd'])
                 })
+
+            if (res['data']['v2ray']['has'] == false)
+                $('#v2rayhas').text("无法在指定的路径下找到V2ray").fadeIn('fast')
         }
     })
 
