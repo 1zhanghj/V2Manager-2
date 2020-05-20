@@ -63,7 +63,7 @@ def updateConfig(request):
         res['data']['msg'] = "Error"
         return res
     
-    row = list(V2rayConfig.objects.filter(UUID = request.GET['UUID']))
+    row = V2rayConfig.objects.all()
     if len(row) == 0:
         V2rayConfig(
             UUID = request.GET['UUID'],
@@ -75,7 +75,7 @@ def updateConfig(request):
             DataPortocol = request.GET['DataPortocol']
         ).save()
     else :
-        V2rayConfig.objects.filter(UUID = request.GET['UUID']).update(
+        V2rayConfig.objects.filter(UUID = row[0].UUID).update(
             UUID = request.GET['UUID'],
             Path = request.GET['V2rayCorePath'],
             Log = request.GET['V2rayLogPath'],
