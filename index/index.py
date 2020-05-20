@@ -13,6 +13,7 @@ def index(request):
     content['scripts'] = js
     content['Data'] = {}
 
+    # V2rayConfig
     v2rayconf = V2rayConfig.objects.all()
     if len(v2rayconf) != 0:
         content['v2raypath'] = v2rayconf[0].Path
@@ -28,6 +29,7 @@ def index(request):
         content['Data']['ShadowsocksID'] = shadowsocksconf[0].ID
         content['Data']['ShadowsocksPwd'] = shadowsocksconf[0].Password
 
+    # V2rayHas
     v2rayHas = True
     msg = ""
     try:
@@ -46,6 +48,7 @@ def index(request):
     content['V2ray']['Has'] = v2rayHas
     content['V2ray']['msg'] = msg
 
+    # V2rayStatus
     content['Status'] = {}
     v2raypid = None
     for pid in psutil.pids():
@@ -57,7 +60,14 @@ def index(request):
         content['Status']['Active'] = 'Stop'
     else:
         content['Status']['Active'] = 'Running'
-    print(content)
+    
+    # V2rayLog
+    logpath = v2rayconf[0].Log
+    log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
+    content['Status']['Log'] = ""
+    for l in log:
+        content['Status']['Log'] += l
+        
     return render(request, 'config.html', content)
 
 def updateUUID(request):
