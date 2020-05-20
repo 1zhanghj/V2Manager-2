@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^$', index.index),
     url(r'^v2rayHas$', index.v2rayHas),
     url(r'^updateUUID$', index.updateUUID),
-    url(r'^updateConfig$', index.updateConfig)
+    url(r'^updateConfig$', index.updateConfig),
+    url(r'^updateShadowsocks$', index.updateShadowsocks)
 ]

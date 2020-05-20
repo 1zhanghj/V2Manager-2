@@ -27,6 +27,8 @@ $(() => {
     })
 
     $('#SubmitConfig').click(() => {
+        if ($('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, '') === "Shadowsocks")
+            updateShadowsocks()
         updateConfig()
     })
 })
@@ -56,6 +58,15 @@ function updateConfig() {
         Portocol        : $('#Portocol').text().replace(/\n/g, '').replace(/ /g, ''),
         UUID            : $('#UUID').val(),
         DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, ''),
+    }, (res) => {
+        console.log(res)
+    })
+}
+
+function updateShadowsocks() {
+    $.get('/updateShadowsocks', {
+        ShadowsocksID   : $('#ShadowsocksID').val(),
+        ShadowsocksPwd  : $('#ShadowsocksPwd').val()
     }, (res) => {
         console.log(res)
     })

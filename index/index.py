@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from index.models import V2rayConfig
+from index.models import V2rayConfig, V2rayShadowsocks
 import os
 import re
 import uuid
@@ -85,6 +85,26 @@ def updateConfig(request):
             DataPortocol = request.GET['DataPortocol']
         )
     
+    res['data']['msg'] = "OK"
+    res = JsonResponse(res)
+    return res
+
+def updateShadowsocks(request):
+    res = {}
+    res['code'] = 1
+    res['data'] = {}
+
+    row = V2rayShadowsocks.objects.all()
+    if len(row) == 0:
+        V2rayShadowsocks(
+            ID = request.GET['ShadowsocksID'],
+            Password = request.GET['ShadowsocksPwd']
+        ).save()
+    else:
+        V2rayShadowsocks.objects.filter(ID = row[0].ID).update(
+            ID = request.GET['ShadowsocksID'],
+            Password = request.GET['ShadowsocksPwd']
+        )
     res['data']['msg'] = "OK"
     res = JsonResponse(res)
     return res
