@@ -19,7 +19,7 @@ $(() => {
                 })
 
             if (res['data']['v2ray']['has'] == false)
-                $('#v2rayhas').text("无法在指定的路径下找到V2ray").fadeIn('fast')
+                $('#v2rayhas').text("无法在指定的路径下找到V2ray").css('alert alert-danger col-5')
         }
     })
 
