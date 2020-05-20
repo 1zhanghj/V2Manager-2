@@ -76,8 +76,8 @@ function updateConfig() {
     }, (res) => {
         if (res['code'] == 1)
             r = 1
+            return r
     })
-    return r
 }
 
 function updateShadowsocks() {
@@ -88,8 +88,8 @@ function updateShadowsocks() {
     }, (res) => {
         if (res['code'] == 1)
             r = 1
+            return r
     })
-    return r
 }
 
 function ShadowsocksConfig(t) {
