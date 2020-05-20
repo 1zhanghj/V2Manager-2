@@ -10,36 +10,42 @@ def index(request):
     content = {}
     content['title'] = "Home"
     content['scripts'] = js
-    listens = []
-    listens.append({'ID': 'in1', 'portocol': 'socks5', 'port': 1000, 'uuid': 'sadsda5s46131'})
-    content['Listens'] = listens
     return render(request, 'config.html', content)
 
 def v2rayHas(request):
     sqlreslist = V2rayConfig.objects.all()
     res = {}
-    res['code'] = 0
+    res['code'] = 1
     res['data'] = {}
+    v2ray = {}
+    status = {}
     if len(sqlreslist) == 0:
         v2ray = False
-        res['code'] = 1
+
     else:
-        v2ray = {}
+        v2ray['has'] = True
         v2ray['V2rayCorePath'] = sqlreslist[0].Path
         v2ray['V2rayLogPath'] = sqlreslist[0].Log
         v2ray['LogLevel'] = sqlreslist[0].Level
         v2ray['Port'] = sqlreslist[0].Port
         v2ray['Portocol'] = sqlreslist[0].Portocol
         v2ray['DataPortocol'] = sqlreslist[0].DataPortocol
-        v2ray['UUID'] = sqlreslist[0].DataPortocol
-        res['code'] = 1
+        v2ray['UUID'] = sqlreslist[0].UUID
 
-    #has = os.popen('ls {}'.format(sqlreslist[0].Path)).readlines()
+        has = os.popen('ls {}/v2ray'.format(sqlreslist[0].Path)).readlines()
+        if re.search(r'No such file or directory', has[0]) != None:
+            v2ray['has'] = False
+            status = None
+        else:
+            v2raystatus = os.popen('sudo systemctl status v2ray').readlines()
+            status['Active'] = re.search(r'running|exited|waiting', v2raystatus[2]).group()
+            status['Date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', v2raystatus[2]).group()
+    res['data']['status'] = status              
     #print(has)
     #res['data']['status'] = {}
     #res['data']['status']['active'] = re.search(r'running|exited|waiting', has[2]).group()
     #res['data']['status']['date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', has[2]).group()
-    #res['data']['v2ray'] = v2ray
+    res['data']['v2ray'] = v2ray
     res = JsonResponse(res)
     return res
 
