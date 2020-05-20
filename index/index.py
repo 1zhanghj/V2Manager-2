@@ -148,7 +148,7 @@ def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uui
         inboundsetting['level'] = 0
         inboundsetting['ota'] = False
         inboundsetting['network'] = "tcp"
-    else:
+    elif dataportocol == 'Vmess':
         inboundsetting['clients'] = []
         clients = {}
         clients['id'] = uuid
