@@ -31,11 +31,9 @@ def index(request):
         if logpath != "":
             try:
                 os.listdir(logpath)
-                print(os.listdir(logpath))
             except:
                 pass
             else:
-                print('access.log' in os.listdir(logpath) and (not os.path.isdir('{}/access.log'.format(logpath))))
                 if 'access.log' in os.listdir(logpath) and (not os.path.isdir('{}/access.log'.format(logpath))):
                     log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
                     content['Status']['Log'] = ""
@@ -78,13 +76,6 @@ def index(request):
         content['Status']['Active'] = 'Stop'
     else:
         content['Status']['Active'] = 'Running'
-    
-    # V2rayLog
-    logpath = v2rayconf[0].Log
-    log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
-    content['Status']['Log'] = ""
-    for l in log:
-        content['Status']['Log'] += l
 
     return render(request, 'config.html', content)
 
