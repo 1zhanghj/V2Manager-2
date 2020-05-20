@@ -31,6 +31,7 @@ def index(request):
         if logpath != "":
             try:
                 os.listdir(logpath)
+                print(os.listdir(logpath))
             except:
                 pass
             else:
