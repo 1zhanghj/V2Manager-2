@@ -11,6 +11,9 @@ $(() => {
             $('#Portocol').text(res['data']['v2ray']['Portocol'])
             $('#UUID').val(res['data']['v2ray']['UUID'])
             $('#Data_portocol').text(res['data']['v2ray']['DataPortocol'])
+
+            if (res['data']['v2ray']['DataPortocol'] === "Shadowsocks")
+                ShadowsocksConfig()
         }
     })
 
