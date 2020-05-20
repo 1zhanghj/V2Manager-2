@@ -39,7 +39,7 @@ def index(request):
                     log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
                     content['Status']['Log'] = ""
                     for l in log:
-                        content['Status']['Log'] += l
+                        content['Status']['Log'] += l.replace('\n', '<br />')
     
     shadowsocksconf = V2rayShadowsocks.objects.all()
     if len(shadowsocksconf) != 0:
