@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from index.models import V2rayConfig, V2rayShadowsocks
 import os
+import json
 import psutil
 import re
 import uuid
@@ -77,7 +78,6 @@ def index(request):
     else:
         content['Status']['Active'] = 'Running'
 
-    print(ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID)['log'])
     return render(request, 'config.html', content)
 
 def updateUUID(request):
@@ -133,6 +133,9 @@ def updateConfig(request):
         )
     
     res['data']['msg'] = "OK"
+    config = ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID)
+    with open('/etc/v2ray/config.json', 'wb+') as f:
+        f.write(json.dumps(config))
     res = JsonResponse(res)
     return res
 
