@@ -12,6 +12,7 @@ def index(request):
     content['title'] = "Home"
     content['scripts'] = js
     content['Data'] = {}
+    content['Status'] = {}
 
     # V2rayConfig
     v2rayconf = V2rayConfig.objects.all()
@@ -23,6 +24,21 @@ def index(request):
         content['portocol'] = v2rayconf[0].Portocol
         content['UUID'] = v2rayconf[0].UUID
         content['Data']['portocol'] = v2rayconf[0].DataPortocol
+
+        # V2rayLog
+        logpath = v2rayconf[0].Log
+        content['Status']['Log'] = ""
+        if logpath != "":
+            try:
+                os.listdir(logpath)
+            except:
+                pass
+            else:
+                if 'access.log' in os.listdir(logpath) and (not os.path.isdir('{}/access.log'.format(logpath))):
+                    log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
+                    content['Status']['Log'] = ""
+                    for l in log:
+                        content['Status']['Log'] += l
     
     shadowsocksconf = V2rayShadowsocks.objects.all()
     if len(shadowsocksconf) != 0:
@@ -49,7 +65,7 @@ def index(request):
     content['V2ray']['msg'] = msg
 
     # V2rayStatus
-    content['Status'] = {}
+    
     v2raypid = None
     for pid in psutil.pids():
         if psutil.Process(pid).name() == 'v2ray':
