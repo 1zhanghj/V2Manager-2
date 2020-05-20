@@ -30,12 +30,16 @@ def v2rayHas(request):
         v2ray['Portocol'] = sqlreslist[0].Portocol
         v2ray['DataPortocol'] = sqlreslist[0].DataPortocol
         v2ray['UUID'] = sqlreslist[0].UUID
-
-        has = os.popen('ls {}/v2ray'.format(sqlreslist[0].Path)).readlines()
-        if re.search(r'No such file or directory', has[0]) != None:
+        try:
+            os.listdir(sqlreslist[0].Path)
+        except:
             v2ray['has'] = False
             status = None
         else:
+            if not 'v2ray' in os.listdir(sqlreslist[0].Path):
+                v2ray['has'] = False
+            elif os.path.isdir('{}/v2ray'.format(sqlreslist[0].Path)):
+                v2ray['has'] = False
             v2raystatus = os.popen('sudo systemctl status v2ray').readlines()
             status['Active'] = re.search(r'running|exited|waiting', v2raystatus[2]).group()
             status['Date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', v2raystatus[2]).group()
