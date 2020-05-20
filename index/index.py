@@ -1,6 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from index.models import V2rayConfig
+import os
+import re
 import uuid
 
 def index(request):
@@ -31,6 +33,11 @@ def v2rayHas(request):
         v2ray['DataPortocol'] = sqlreslist[0].DataPortocol
         v2ray['UUID'] = sqlreslist[0].DataPortocol
         res['code'] = 1
+
+    has = os.popen('ls {}'.format(sqlreslist[0].Path)).readlines()
+    res['data']['status'] = {}
+    res['data']['status']['active'] = re.search(r'running|exited|waiting', has[2]).group()
+    res['data']['status']['date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', has[2]).group()
     res['data']['v2ray'] = v2ray
     res = JsonResponse(res)
     return res
@@ -74,6 +81,7 @@ def updateConfig(request):
             Portocol = request.GET['Portocol'],
             DataPortocol = request.GET['DataPortocol']
         )
+    
     res['data']['msg'] = "OK"
     res = JsonResponse(res)
     return res
