@@ -1,3 +1,7 @@
 #sidebar {
     min-width: 256px;
 }
+
+.focusnoshadow:focus {
+    box-shadow: none !important;
+}
