@@ -34,12 +34,12 @@ def v2rayHas(request):
         v2ray['UUID'] = sqlreslist[0].DataPortocol
         res['code'] = 1
 
-    has = os.popen('ls {}'.format(sqlreslist[0].Path)).readlines()
-    print(has)
-    res['data']['status'] = {}
-    res['data']['status']['active'] = re.search(r'running|exited|waiting', has[2]).group()
-    res['data']['status']['date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', has[2]).group()
-    res['data']['v2ray'] = v2ray
+    #has = os.popen('ls {}'.format(sqlreslist[0].Path)).readlines()
+    #print(has)
+    #res['data']['status'] = {}
+    #res['data']['status']['active'] = re.search(r'running|exited|waiting', has[2]).group()
+    #res['data']['status']['date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', has[2]).group()
+    #res['data']['v2ray'] = v2ray
     res = JsonResponse(res)
     return res
 
