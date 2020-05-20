@@ -57,7 +57,7 @@ def updateConfig(request):
     res = {}
     res['code'] = 1
     res['data'] = {}
-
+    
     if request.GET['UUID'] == '':
         res['code'] = 0
         res['data']['msg'] = "Error"

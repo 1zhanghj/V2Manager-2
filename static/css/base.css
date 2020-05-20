@@ -5,3 +5,7 @@
 .focusnoshadow:focus {
     box-shadow: none !important;
 }
+
+.hide {
+    display: none;
+}

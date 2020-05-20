@@ -55,8 +55,15 @@ function updateConfig() {
         Port            : $('#Port').val(),
         Portocol        : $('#Portocol').text().replace(/\n/g, '').replace(/ /g, ''),
         UUID            : $('#UUID').val(),
-        DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, '')
+        DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, ''),
     }, (res) => {
         console.log(res)
     })
+}
+
+function ShadowsocksConfig(t) {
+    if ($(t).text() === "Vmess")
+        $('#Shadowsocks').fadeOut('fast')
+    else 
+        $('#Shadowsocks').fadeIn('fast')
 }

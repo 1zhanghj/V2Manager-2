@@ -103,10 +103,24 @@
                                     {% endif %}
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Vmess</a>
-                                    <a class="dropdown-item" href="#">Shadowsocks</a>
+                                    <a class="dropdown-item" href="#" onclick="ShadowsocksConfig(this)">Vmess</a>
+                                    <a class="dropdown-item" href="#" onclick="ShadowsocksConfig(this)">Shadowsocks</a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col hide" id="Shadowsocks">
+                    <div class="form-group row">
+                        <label for="ShadowsocksID" class="col-sm-2 col-form-label">Shadowsocks ID</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="ShadowsocksID" value="{{ ShadowsocksID }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ShadowsocksPwd" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-3">
+                            <input type="password" class="form-control" id="ShadowsocksPwd" value="{{ ShadowsocksPwd }}">
                         </div>
                     </div>
                 </div>
