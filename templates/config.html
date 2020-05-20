@@ -138,6 +138,9 @@
                 <div class="col">
                     <div class="alert col-sm-8 {% if Status.Active == 'Stop' %}alert-danger{% elif Status.Active == 'Running'%}alert-success{% endif %}" id="Status">{{ Status.Active }}</div>
                 </div>
+                <div class="col">
+                    <div class="btn btn-danger">停止</div>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
