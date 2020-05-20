@@ -139,7 +139,12 @@
                     <div class="alert col-sm-8 {% if Status.Active == 'Stop' %}alert-danger{% elif Status.Active == 'Running'%}alert-success{% endif %}" id="Status">{{ Status.Active }}</div>
                 </div>
                 <div class="col">
-                    <div class="btn btn-danger">停止</div>
+                    {% if Status.Active == 'Running' %}
+                    <div class="btn btn-danger"><i class="iconfont iconstart">停止</i></div>
+                    {% if Status.Active == 'Stop' %}
+                    <div class="btn btn-success"><i class="iconfont iconstart">启动</i></div>
+                    {% endif %}
+                    <div class="btn btn-pirmary"><i class="iconfont iconrestart">重启</i></div>
                 </div>
             </div>
         </div>
