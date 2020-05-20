@@ -77,7 +77,7 @@ def index(request):
     else:
         content['Status']['Active'] = 'Running'
 
-    #print(ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID))
+    #print(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID)
 
     return render(request, 'config.html', content)
 
@@ -138,78 +138,76 @@ def updateConfig(request):
     return res
 
 def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uuid):
+    inboundsetting = {}
     if dataportocol == 'Shadowsocks':
-        inboundsetting = """
-        {
-            "email": "{}",
-            "method": "aes-128-gcm",
-            "password": "{}",
-            "level": 0,
-            "ota": false,
-            "network": "tcp"
-        }
-        """.format(ssID, ssPWD)
+        inboundsetting['email'] = ssID
+        inboundsetting['method'] = 'aes-128-gcm'
+        inboundsetting['password'] = ssPWD
+        inboundsetting['level'] = 0
+        inboundsetting['ota'] = False
+        inboundsetting['network'] = "tcp"
     else:
-        inboundsetting = """
-        "clients": [
-            {
-                "id": "{}",
-                "alterId": 32
-            }
-        ]
-        """.format(uuid)
+        inboundsetting['clients'] = []
+        clients = {}
+        clients['id'] = uuid
+        clients['alterId'] = 32
+        inboundsetting['clients'].append(clients)
 
-    jsonstr = """
-    {
-        "log": {
-            "access": "{}/access.log",
-            "error": "{}/error.log",
-            "loglevel": "{}"
-        },
-        "dns": {
-        },
-        "stats": {
-        },
-        "inbounds": [{
-            "port": {},
-            "portocol": "{}",
-            "settings": {
-                {}
-            },
-            "streamSettings": {
-                "network": "{}",
-                "security": "none",
-                "tcpSettings": {
-                }
-            }
-        }],
-        "outbounds": [{
-            "tag": "direct",
-            "protocol": "freedom",
-            "settings": {
-            }
-        },{
-            "tag": "blocked",
-            "protocol": "blackhole",
-            "settings": {
-            }
-        }],
-        "rounting": {
-            "domainStrategy": "AsIs",
-            "rules": [{
-                "type": "field",
-                "ip": [
-                    "geoip:private"
-                ],
-                "outboundTag": "blocked"
-            }]
-        },
-        "policy": {
-        },
-        "reverse": {
-        },
-        "transport": {
-        }
-    }
-    """.format(logpath, loglevel, port, dataportocol, inboundsetting, portocol)
+    jsonstr = {}
+
+    log = {}
+    log['access'] = '{}/access.log'.format(logpath)
+    log['error'] = '{}/error.log'.format(logpath)
+    log['loglevel'] = loglevel
+
+    dns = {}
+    stats = {}
+
+    inbounds = []
+    inbound = {}
+    inbound['port'] = port
+    inbound['portocol'] = dataportocol
+    inbound['settings'] = inboundsetting
+    streamsettings = {}
+    if portocol == 'mkcp':
+        streamsettings['network'] = 'kcp'
+    elif portocol == 'tcp':
+        streamsettings['network'] = 'tcp'
+    streamsettings['security'] = 'none'
+    streamsettings['{}Settings'.format(streamsettings['network'])] = {}
+    inbound['streamSettings'] = streamsettings
+    inbounds.append(inbound)
+
+    outbounds = []
+    outbound_direct = {}
+    outbound_direct['tag'] = 'direct'
+    outbound_direct['protocol'] = 'freedom'
+    outbound_direct['settings'] = {}
+    outbound_blocked = {}
+    outbound_blocked['tag'] = 'blocked'
+    outbound_blocked['protocol'] = 'blackhole'
+    outbound_blocked['settings'] = {}
+    outbounds.append(outbound_direct)
+    outbounds.append(outbound_blocked)
+
+    rounting = {}
+    rounting['domainStrategy'] = 'AsIs'
+    rounting['rules'] = [{}]
+    rounting['rules'][0]['type'] = 'field'
+    rounting['rules'][0]['ip'] = ['geoip:private']
+    rounting['rules'][0]['outboundTag'] = 'blocked'
+
+    policy = {}
+    reverse = {}
+    transport = {}
+
+    jsonstr['log'] = log
+    jsonstr['dns'] = dns
+    jsonstr['stats'] = stats
+    jsonstr['inbounds'] = inbounds
+    jsonstr['outbounds'] = outbounds
+    jsonstr['rounting'] = rounting
+    jsonstr['policy'] = policy
+    jsonstr['reverse'] = reverse
+    jsonstr['transport'] = transport
     return jsonstr
