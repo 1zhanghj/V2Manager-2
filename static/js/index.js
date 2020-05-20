@@ -65,7 +65,8 @@ function updateConfig() {
         UUID            : $('#UUID').val(),
         DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, ''),
     }, (res) => {
-        console.log(res)
+        if (res['code'] == 1)
+            alert('配置已更新')
     })
 }
 
@@ -74,7 +75,8 @@ function updateShadowsocks() {
         ShadowsocksID   : $('#ShadowsocksID').val(),
         ShadowsocksPwd  : $('#ShadowsocksPwd').val()
     }, (res) => {
-        console.log(res)
+        if (res['code'] == 1)
+            alert('配置已更新')
     })
 }
 
