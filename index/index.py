@@ -57,7 +57,7 @@ def index(request):
         content['Status']['Active'] = 'Stop'
     else:
         content['Status']['Active'] = 'Running'
-
+    print(content)
     return render(request, 'config.html', content)
 
 def updateUUID(request):
