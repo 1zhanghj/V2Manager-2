@@ -77,6 +77,8 @@ def index(request):
     else:
         content['Status']['Active'] = 'Running'
 
+    print(ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID))
+
     return render(request, 'config.html', content)
 
 def updateUUID(request):
@@ -134,3 +136,80 @@ def updateConfig(request):
     res['data']['msg'] = "OK"
     res = JsonResponse(res)
     return res
+
+def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uuid):
+    if dataportocol == 'Shadowsocks':
+        inboundsetting = """
+        {
+            "email": "{}",
+            "method": "aes-128-gcm",
+            "password": "{}",
+            "level": 0,
+            "ota": false,
+            "network": "tcp"
+        }
+        """.format(ssID, ssPWD)
+    else:
+        inboundsetting = """
+        "clients": [
+            {
+                "id": "{}",
+                "alterId": 32
+            }
+        ]
+        """.format(uuid)
+
+    jsonstr = """
+    {
+        "log": {
+            "access": "{}/access.log",
+            "error": "{}/error.log",
+            "loglevel": "{}"
+        },
+        "dns": {
+        },
+        "stats": {
+        },
+        "inbounds": [{
+            "port": {},
+            "portocol": "{}",
+            "settings": {
+                {}
+            },
+            "streamSettings": {
+                "network": "{}",
+                "security": "none",
+                "tcpSettings": {
+                }
+            }
+        }],
+        "outbounds": [{
+            "tag": "direct",
+            "protocol": "freedom",
+            "settings": {
+            }
+        },{
+            "tag": "blocked",
+            "protocol": "blackhole",
+            "settings": {
+            }
+        }],
+        "rounting": {
+            "domainStrategy": "AsIs",
+            "rules": [{
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "blocked"
+            }]
+        },
+        "policy": {
+        },
+        "reverse": {
+        },
+        "transport": {
+        }
+    }
+    """.format(logpath, loglevel, port, dataportocol, inboundsetting, portocol)
+    return jsonstr
