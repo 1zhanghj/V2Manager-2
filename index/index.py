@@ -77,8 +77,7 @@ def index(request):
     else:
         content['Status']['Active'] = 'Running'
 
-    print(ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID))
-
+    print(ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID)['log'])
     return render(request, 'config.html', content)
 
 def updateUUID(request):
