@@ -33,17 +33,10 @@ $(() => {
     })
 
     $('#SubmitConfig').click(() => {
-        var a = ""
         if ($('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, '') === "Shadowsocks")
-            var shadowsocksres = updateShadowsocks()
-            if (shadowsocksres == 1)
-                a += "Shadowsocks配置更新成功\n"
-            else a += "Shadowsocks配置更新失败\n"
-        var configres = updateConfig()
-        if (configres == 1)
-            a += "V2ray配置更新成功"
-        else a += "V2ray配置更新失败"
-        alert(a)
+            updateShadowsocks()
+        updateConfig()
+        window.location.reload()
     })
 })
 
@@ -74,9 +67,8 @@ function updateConfig() {
         UUID            : $('#UUID').val(),
         DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, ''),
     }, (res) => {
-        if (res['code'] == 1)
-            r = 1
-            return r
+        if (res['code'] == 0)
+            alert('V2ray配置更新失败')
     })
 }
 
@@ -86,9 +78,8 @@ function updateShadowsocks() {
         ShadowsocksID   : $('#ShadowsocksID').val(),
         ShadowsocksPwd  : $('#ShadowsocksPwd').val()
     }, (res) => {
-        if (res['code'] == 1)
-            r = 1
-            return r
+        if (res['code'] == 0)
+            alert('Shadowsocks配置更新失败')
     })
 }
 
