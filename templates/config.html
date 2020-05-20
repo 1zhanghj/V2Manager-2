@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col {% if Data.portocol == 'Vmess' %}hide{% endif %}" id="Shadowsocks">
+                <div class="col {% if Data.portocol == 'Vmess' || Data.portocol == '' %}hide{% endif %}" id="Shadowsocks">
                     <div class="form-group row">
                         <label for="ShadowsocksID" class="col-sm-2 col-form-label">Shadowsocks ID</label>
                         <div class="col-sm-3">
