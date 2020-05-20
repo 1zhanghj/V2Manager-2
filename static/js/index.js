@@ -10,10 +10,12 @@ $(() => {
             $('#Port').val(res['data']['v2ray']['Port'])
             $('#Portocol').text(res['data']['v2ray']['Portocol'])
             $('#UUID').val(res['data']['v2ray']['UUID'])
+            $('#Data_portocol').text(res['data']['v2ray']['DataPortocol'])
 
             if (res['data']['v2ray']['DataPortocol'] === "Shadowsocks")
                 $('#Shadowsocks').fadeIn('fast', () => {
-                    $('#Data_portocol').text(res['data']['v2ray']['DataPortocol'])
+                    $('ShadowsocksID').val(res['data']['shadowsocks']['ShadowsocksID'])
+                    $('ShadowsocksPwd').val(res['data']['shadowsocks']['ShadowsocksPwd'])
                 })
         }
     })
