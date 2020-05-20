@@ -35,7 +35,7 @@ def index(request):
             except:
                 pass
             else:
-                print('access.log' in os.listdir(logpath))
+                print('access.log' in os.listdir(logpath) and (not os.path.isdir('{}/access.log'.format(logpath))))
                 if 'access.log' in os.listdir(logpath) and (not os.path.isdir('{}/access.log'.format(logpath))):
                     log = os.popen('sudo tail -n 50 {}/access.log'.format(logpath)).readlines()
                     content['Status']['Log'] = ""
