@@ -14,6 +14,7 @@ $(() => {
 
             if (res['data']['v2ray']['DataPortocol'] === "Shadowsocks")
                 $('#Shadowsocks').fadeIn('fast', () => {
+                    console.log(res['data']['shadowsocks']['ShadowsocksID'])
                     $('#ShadowsocksID').val(res['data']['shadowsocks']['ShadowsocksID'])
                     $('#ShadowsocksPwd').val(res['data']['shadowsocks']['ShadowsocksPwd'])
                 })
