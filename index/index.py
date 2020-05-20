@@ -21,7 +21,6 @@ def v2rayHas(request):
     status = {}
     if len(sqlreslist) == 0:
         v2ray = False
-
     else:
         v2ray['has'] = True
         v2ray['V2rayCorePath'] = sqlreslist[0].Path
@@ -40,6 +39,16 @@ def v2rayHas(request):
             v2raystatus = os.popen('sudo systemctl status v2ray').readlines()
             status['Active'] = re.search(r'running|exited|waiting', v2raystatus[2]).group()
             status['Date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', v2raystatus[2]).group()
+    
+    shadow = {}
+    Shadowsocks = V2rayShadowsocks.objects.all()
+    if len(Shadowsocks) == 0:
+        shadow = False
+    else:
+        shadow['ShadowsocksID'] = Shadowsocks[0].ID
+        shadow['ShadowsocksPwd'] = Shadowsocks[0].Password
+
+    res['data']['shadowsocks'] = shadow
     res['data']['status'] = status              
     res['data']['v2ray'] = v2ray
     res = JsonResponse(res)
