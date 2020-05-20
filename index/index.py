@@ -65,7 +65,6 @@ def updateConfig(request):
             DataPortocol = request.GET['DataPortocol']
         ).save()
     else :
-        print(request.GET['V2rayCorePath'])
         V2rayConfig.objects.filter(UUID = request.GET['UUID']).update(
             UUID = request.GET['UUID'],
             Path = request.GET['V2rayCorePath'],
