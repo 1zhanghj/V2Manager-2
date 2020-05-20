@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="alert alert-danger col-sm-8 hide" id="v2rayhas"></div>
+                    <div class="alert alert-danger col-sm-8 {% if V2ray.Has %}hide{% endif %}" id="v2rayhas">{{ V2ray.msg }}</div>
                 </div>
             </div>
             <h4 class="text-dark p-1">监听端口</h4>
@@ -57,7 +57,7 @@
                     <div class="form-group row">
                         <label for="Port" class="col-sm-2 col-form-label">端口</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="Port" value="{{ v2raypath }}">
+                            <input type="text" class="form-control" id="Port" value="{{ v2rayport }}">
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="form-group row">
                         <label for="UUID" class="col-sm-2 col-form-label">UUID</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="UUID" value="{{ v2raypath }}">
+                            <input type="text" class="form-control" id="UUID" value="{{ UUID }}">
                         </div>
                         <button class="btn iconfont iconupdate d-flex align-items-center" id="UuidUpdate"></button>
                     </div>
@@ -99,7 +99,7 @@
                         <div class="input-group col-sm-8">
                             <div class="col-sm-2 p-0 m-0">
                                 <button class="btn btn-outline-secondary dropdown-toggle w-100" id="Data_portocol" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% if Data %}
+                                    {% if Data.portocol %}
                                         {{ Data.portocol }}
                                     {% else %}
                                         Vmess
@@ -113,17 +113,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col hide" id="Shadowsocks">
+                <div class="col {% if Data.portocol == 'Vmess' %}hide{% endif %}" id="Shadowsocks">
                     <div class="form-group row">
                         <label for="ShadowsocksID" class="col-sm-2 col-form-label">Shadowsocks ID</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="ShadowsocksID" value="{{ ShadowsocksID }}">
+                            <input type="text" class="form-control" id="ShadowsocksID" value="{{ Data.ShadowsocksID }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="ShadowsocksPwd" class="col-sm-2 col-form-label">Password</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" id="ShadowsocksPwd" value="{{ ShadowsocksPwd }}">
+                            <input type="password" class="form-control" id="ShadowsocksPwd" value="{{ Data.ShadowsocksPwd }}">
                         </div>
                     </div>
                 </div>

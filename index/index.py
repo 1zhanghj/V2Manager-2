@@ -10,53 +10,42 @@ def index(request):
     content = {}
     content['title'] = "Home"
     content['scripts'] = js
-    return render(request, 'config.html', content)
+    content['Data'] = {}
 
-def v2rayHas(request):
-    sqlreslist = V2rayConfig.objects.all()
-    res = {}
-    res['code'] = 1
-    res['data'] = {}
-    v2ray = {}
-    status = {}
-    if len(sqlreslist) == 0:
-        v2ray = False
-    else:
-        v2ray['has'] = True
-        v2ray['V2rayCorePath'] = sqlreslist[0].Path
-        v2ray['V2rayLogPath'] = sqlreslist[0].Log
-        v2ray['LogLevel'] = sqlreslist[0].Level
-        v2ray['Port'] = sqlreslist[0].Port
-        v2ray['Portocol'] = sqlreslist[0].Portocol
-        v2ray['DataPortocol'] = sqlreslist[0].DataPortocol
-        v2ray['UUID'] = sqlreslist[0].UUID
-        try:
-            os.listdir(sqlreslist[0].Path)
-        except:
-            v2ray['has'] = False
-            status = None
-        else:
-            if not 'v2ray' in os.listdir(sqlreslist[0].Path):
-                v2ray['has'] = False
-            elif os.path.isdir('{}/v2ray'.format(sqlreslist[0].Path)):
-                v2ray['has'] = False
-            v2raystatus = os.popen('sudo systemctl status v2ray').readlines()
-            status['Active'] = re.search(r'running|exited|waiting', v2raystatus[2]).group()
-            status['Date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', v2raystatus[2]).group()
+    v2rayconf = V2rayConfig.objects.all()
+    if len(v2rayconf) != 0:
+        content['v2raypath'] = v2rayconf[0].Path
+        content['v2raylogpath'] = v2rayconf[0].Log
+        content['loglevel'] = v2rayconf[0].Level
+        content['v2rayport'] = v2rayconf[0].Port
+        content['portocol'] = v2rayconf[0].Portocol
+        content['UUID'] = v2rayconf[0].UUID
+        content['Data']['portocol'] = v2rayconf[0].DataPortocol
     
-    shadow = {}
-    Shadowsocks = V2rayShadowsocks.objects.all()
-    if len(Shadowsocks) == 0:
-        shadow = False
-    else:
-        shadow['ShadowsocksID'] = Shadowsocks[0].ID
-        shadow['ShadowsocksPwd'] = Shadowsocks[0].Password
+    shadowsocksconf = V2rayShadowsocks.objects.all()
+    if len(shadowsocksconf) != 0:
+        content['Data']['ShadowsocksID'] = shadowsocksconf[0].ID
+        content['Data']['ShadowsocksPwd'] = shadowsocksconf[0].Password
 
-    res['data']['shadowsocks'] = shadow
-    res['data']['status'] = status              
-    res['data']['v2ray'] = v2ray
-    res = JsonResponse(res)
-    return res
+    v2rayHas = True
+    msg = ""
+    try:
+        os.listdir(sqlreslist[0].Path)
+    except:
+        v2rayHas = False
+        msg = "该路径不存在"
+    else:
+        if not 'v2ray' in os.listdir(sqlreslist[0].Path):
+            v2rayHas = False
+            msg = "该路径下没有V2ray执行程序"
+        elif os.path.isdir('{}/v2ray'.format(sqlreslist[0].Path)):
+            v2rayHas = False
+            msg = "该路径下的V2ray为文件夹，不符合要求"
+    content['V2ray'] = {}
+    content['V2ray']['Has'] = v2rayHas
+    content['V2ray']['msg'] = msg
+
+    return render(request, 'config.html', content)
 
 def updateUUID(request):
     res = {}
@@ -76,8 +65,8 @@ def updateConfig(request):
         res['data']['msg'] = "Error"
         return res
     
-    row = V2rayConfig.objects.all()
-    if len(row) == 0:
+    v2rayconf = V2rayConfig.objects.all()
+    if len(v2rayconf) == 0:
         V2rayConfig(
             UUID = request.GET['UUID'],
             Path = request.GET['V2rayCorePath'],
@@ -88,7 +77,7 @@ def updateConfig(request):
             DataPortocol = request.GET['DataPortocol']
         ).save()
     else :
-        V2rayConfig.objects.filter(UUID = row[0].UUID).update(
+        V2rayConfig.objects.filter(UUID = v2rayconf[0].UUID).update(
             UUID = request.GET['UUID'],
             Path = request.GET['V2rayCorePath'],
             Log = request.GET['V2rayLogPath'],
@@ -97,27 +86,19 @@ def updateConfig(request):
             Portocol = request.GET['Portocol'],
             DataPortocol = request.GET['DataPortocol']
         )
-    
-    res['data']['msg'] = "OK"
-    res = JsonResponse(res)
-    return res
 
-def updateShadowsocks(request):
-    res = {}
-    res['code'] = 1
-    res['data'] = {}
-
-    row = V2rayShadowsocks.objects.all()
-    if len(row) == 0:
+    shadowsocksconf = V2rayShadowsocks.objects.all()
+    if len(shadowsocksconf) == 0:
         V2rayShadowsocks(
             ID = request.GET['ShadowsocksID'],
             Password = request.GET['ShadowsocksPwd']
         ).save()
     else:
-        V2rayShadowsocks.objects.filter(ID = row[0].ID).update(
+        V2rayShadowsocks.objects.filter(ID = shadowsocksconf[0].ID).update(
             ID = request.GET['ShadowsocksID'],
             Password = request.GET['ShadowsocksPwd']
         )
+    
     res['data']['msg'] = "OK"
     res = JsonResponse(res)
     return res
