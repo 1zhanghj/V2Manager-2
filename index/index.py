@@ -41,10 +41,6 @@ def v2rayHas(request):
             status['Active'] = re.search(r'running|exited|waiting', v2raystatus[2]).group()
             status['Date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', v2raystatus[2]).group()
     res['data']['status'] = status              
-    #print(has)
-    #res['data']['status'] = {}
-    #res['data']['status']['active'] = re.search(r'running|exited|waiting', has[2]).group()
-    #res['data']['status']['date'] = re.search(r'\d+\-\d+\-\d+ \d+:\d+:\d+ \w+', has[2]).group()
     res['data']['v2ray'] = v2ray
     res = JsonResponse(res)
     return res
