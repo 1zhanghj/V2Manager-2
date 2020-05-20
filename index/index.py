@@ -134,8 +134,7 @@ def updateConfig(request):
     
     res['data']['msg'] = "OK"
     config = ConfigJson(v2rayconf[0].Log, v2rayconf[0].Level, v2rayconf[0].Port, v2rayconf[0].DataPortocol, shadowsocksconf[0].ID, shadowsocksconf[0].Password, v2rayconf[0].Portocol, v2rayconf[0].UUID)
-    print(json.dumps(config))
-    with open('/etc/v2ray/config.json', 'wb+') as f:
+    with open('/etc/v2ray/config.json', 'w+') as f:
         f.write(json.dumps(config))
     res = JsonResponse(res)
     return res
