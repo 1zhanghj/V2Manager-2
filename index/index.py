@@ -22,9 +22,9 @@ def index(request):
         content['v2raylogpath'] = v2rayconf[0].Log
         content['loglevel'] = v2rayconf[0].Level
         content['v2rayport'] = v2rayconf[0].Port
-        content['portocol'] = v2rayconf[0].Portocol
+        content['protocol'] = v2rayconf[0].Protocol
         content['UUID'] = v2rayconf[0].UUID
-        content['Data']['portocol'] = v2rayconf[0].DataPortocol
+        content['Data']['protocol'] = v2rayconf[0].DataProtocol
 
         # V2rayLog
         logpath = v2rayconf[0].Log
@@ -106,8 +106,8 @@ def updateConfig(request):
             Log = request.GET['V2rayLogPath'],
             Level = request.GET['LogLevel'],
             Port = request.GET['Port'],
-            Portocol = request.GET['Portocol'],
-            DataPortocol = request.GET['DataPortocol']
+            Protocol = request.GET['Protocol'],
+            DataProtocol = request.GET['DataProtocol']
         ).save()
     else :
         V2rayConfig.objects.filter(UUID = v2rayconf[0].UUID).update(
@@ -116,8 +116,8 @@ def updateConfig(request):
             Log = request.GET['V2rayLogPath'],
             Level = request.GET['LogLevel'],
             Port = request.GET['Port'],
-            Portocol = request.GET['Portocol'],
-            DataPortocol = request.GET['DataPortocol']
+            Protocol = request.GET['Protocol'],
+            DataProtocol = request.GET['DataProtocol']
         )
 
     shadowsocksconf = V2rayShadowsocks.objects.all()
@@ -137,28 +137,28 @@ def updateConfig(request):
         request.GET['V2rayLogPath'], 
         request.GET['LogLevel'], 
         request.GET['Port'], 
-        request.GET['DataPortocol'], 
+        request.GET['DataProtocol'], 
         request.GET['ShadowsocksID'], 
         request.GET['ShadowsocksPwd'], 
-        request.GET['Portocol'], 
+        request.GET['Protocol'], 
         request.GET['UUID']
     )
     with open('/etc/v2ray/config.json', 'w+') as f:
-        json.dump(config, f)
+        json.dump(config, indent=4)
     os.system('sudo systemctl restart v2ray')
     res = JsonResponse(res)
     return res
 
-def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uuid):
+def ConfigJson(logpath, loglevel, port, dataprotocol, ssID, ssPWD, protocol, uuid):
     inboundsetting = {}
-    if dataportocol == 'Shadowsocks':
+    if dataprotocol == 'Shadowsocks':
         inboundsetting['email'] = ssID
         inboundsetting['method'] = 'aes-128-gcm'
         inboundsetting['password'] = ssPWD
         inboundsetting['level'] = 0
         inboundsetting['ota'] = False
         inboundsetting['network'] = "tcp"
-    elif dataportocol == 'Vmess':
+    elif dataprotocol == 'Vmess':
         inboundsetting['clients'] = []
         clients = {}
         clients['id'] = uuid
@@ -178,12 +178,12 @@ def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uui
     inbounds = []
     inbound = {}
     inbound['port'] = int(port)
-    inbound['portocol'] = dataportocol.lower()
+    inbound['protocol'] = dataprotocol.lower()
     inbound['settings'] = inboundsetting
     streamsettings = {}
-    if portocol == 'mkcp':
+    if protocol == 'mkcp':
         streamsettings['network'] = 'kcp'
-    elif portocol == 'tcp':
+    elif protocol == 'tcp':
         streamsettings['network'] = 'tcp'
     streamsettings['security'] = 'none'
     streamsettings['{}Settings'.format(streamsettings['network'])] = {}

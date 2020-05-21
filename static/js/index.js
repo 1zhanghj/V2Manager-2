@@ -38,11 +38,11 @@ function updateConfig() {
         V2rayLogPath    : $('#V2rayLogPath').val(),
         LogLevel        : $('#loglevel').text().replace(/\n/g, '').replace(/ /g, ''),
         Port            : $('#Port').val(),
-        Portocol        : $('#Portocol').text().replace(/\n/g, '').replace(/ /g, ''),
+        Protocol        : $('#Protocol').text().replace(/\n/g, '').replace(/ /g, ''),
         UUID            : $('#UUID').val(),
-        DataPortocol    : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, ''),
-        ShadowsocksID   : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, '') === 'Vmess' ? '' : $('#ShadowsocksID').val(),
-        ShadowsocksPwd  : $('#Data_portocol').text().replace(/\n/g, '').replace(/ /g, '') === 'Vmess' ? '' : $('#ShadowsocksPwd').val()
+        DataProtocol    : $('#Data_protocol').text().replace(/\n/g, '').replace(/ /g, ''),
+        ShadowsocksID   : $('#Data_protocol').text().replace(/\n/g, '').replace(/ /g, '') === 'Vmess' ? '' : $('#ShadowsocksID').val(),
+        ShadowsocksPwd  : $('#Data_protocol').text().replace(/\n/g, '').replace(/ /g, '') === 'Vmess' ? '' : $('#ShadowsocksPwd').val()
     }, (res) => {
         if (res['code'] == 0)
             alert('V2ray配置更新失败')
