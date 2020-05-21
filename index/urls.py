@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^$', index.index),
     url(r'^updateUUID$', index.updateUUID),
     url(r'^updateConfig$', index.updateConfig),
+    url(r'^v2raycontrol$', index.V2rayControl)
 ]

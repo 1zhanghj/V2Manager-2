@@ -233,3 +233,12 @@ def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uui
     jsonstr['reverse'] = reverse
     jsonstr['transport'] = transport
     return jsonstr
+
+def V2rayControl(request):
+    res = {}
+    res['code'] = 0
+    res['data'] = {}
+    res['data']['msg'] = "OK"
+
+    os.system('sudo systemctl {} v2ray'.format(request.GET['cmd']))
+    return res

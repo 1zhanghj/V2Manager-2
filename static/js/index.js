@@ -59,3 +59,11 @@ function ShadowsocksConfig(t) {
     else 
         $('#Shadowsocks').fadeIn('fast')
 }
+
+function V2rayControl(cmd) {
+    $.get('/v2raycontrol', {
+        cmd: cmd
+    }, (res) => {
+        console.log(res)
+    })
+}
