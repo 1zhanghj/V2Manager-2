@@ -143,18 +143,8 @@ def updateConfig(request):
         request.GET['Portocol'], 
         request.GET['UUID']
     )
-    print(
-        request.GET['V2rayLogPath'], 
-        request.GET['LogLevel'], 
-        request.GET['Port'], 
-        request.GET['DataPortocol'], 
-        request.GET['ShadowsocksID'], 
-        request.GET['ShadowsocksPwd'], 
-        request.GET['Portocol'], 
-        request.GET['UUID']
-    )
     with open('/etc/v2ray/config.json', 'w+') as f:
-        f.write(json.dumps(config))
+        f.write(json.dumps(config, indent=4))
     os.system('sudo systemctl restart v2ray')
     res = JsonResponse(res)
     return res
