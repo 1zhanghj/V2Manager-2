@@ -144,7 +144,7 @@ def updateConfig(request):
         request.GET['UUID']
     )
     with open('/etc/v2ray/config.json', 'w+') as f:
-        f.write(json.dumps(config, indent=4))
+        json.dump(config, f)
     os.system('sudo systemctl restart v2ray')
     res = JsonResponse(res)
     return res
@@ -170,15 +170,15 @@ def ConfigJson(logpath, loglevel, port, dataportocol, ssID, ssPWD, portocol, uui
     log = {}
     log['access'] = '{}/access.log'.format(logpath)
     log['error'] = '{}/error.log'.format(logpath)
-    log['loglevel'] = loglevel
+    log['loglevel'] = loglevel.lower()
 
     dns = {}
     stats = {}
 
     inbounds = []
     inbound = {}
-    inbound['port'] = port
-    inbound['portocol'] = dataportocol
+    inbound['port'] = int(port)
+    inbound['portocol'] = dataportocol.lower()
     inbound['settings'] = inboundsetting
     streamsettings = {}
     if portocol == 'mkcp':
