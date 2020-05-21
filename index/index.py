@@ -229,6 +229,6 @@ def V2rayControl(request):
     res['code'] = 0
     res['data'] = {}
     res['data']['msg'] = "OK"
-
+    print('sudo systemctl {} v2ray'.format(request.GET['cmd']))
     os.system('sudo systemctl {} v2ray'.format(request.GET['cmd']))
     return res
