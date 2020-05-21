@@ -65,5 +65,6 @@ function V2rayControl(cmd) {
         cmd: cmd
     }, (res) => {
         console.log(res)
+        window.location.reload()
     })
 }
