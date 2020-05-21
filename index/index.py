@@ -144,7 +144,7 @@ def updateConfig(request):
         request.GET['UUID']
     )
     with open('/etc/v2ray/config.json', 'w+') as f:
-        f.write(json.dumps(config, indent=4))
+        f.write(json.dumps(config))
     os.system('sudo systemctl restart v2ray')
     res = JsonResponse(res)
     return res
